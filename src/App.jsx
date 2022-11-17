@@ -6,13 +6,6 @@ import { Repositorios } from "./components/Repositorios";
 import "./App.css";
 
 function App() {
-  function ligaClick() {
-    console.log("estou clicando");
-  }
-
-  function pegaInput(event) {
-    console.log(event.target.value);
-  }
 
   return (
     <div className="App">
@@ -26,11 +19,7 @@ function App() {
       </Subtitle>
       <br />
       <Image />
-
-      <div className="card">
-        <input className="input" placeholder="Busque o repositório \(•◡•)/" onChange={pegaInput} />
-
-      </div>
+      <br />      
       <Repositorios />
       <br />
       <p className="read-the-docs">

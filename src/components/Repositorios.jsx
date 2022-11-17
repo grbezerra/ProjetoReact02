@@ -2,26 +2,49 @@ import { useState, useEffect } from "react";
 import Axios from "axios";
 
 export function Repositorios() {
-  const [reposFromApi, setReposFromApi] = useState([]);
+  const [repositorio, setRepositorio] = useState([]);
+  const [buscaTermo, setBuscaTermo] = useState("");
+  const [repositoriosFiltrados, setRepositoriosFiltrados] = useState([]);
   const baseURL = "https://api.github.com/users/grbezerra/repos";
 
   useEffect(() => {
     async function getData() {
       const response = await Axios.get(baseURL);
-      setReposFromApi(response.data);
+      setRepositorio(response.data);
     }
     getData();
   }, []);
 
+  function pegaInput(event) {
+    setBuscaTermo(event.target.value);
+  }
+
+  useEffect(() => {
+    setRepositoriosFiltrados(
+      repositorio.filter((repositorio) => {
+        return repositorio.name.includes(buscaTermo);
+      })
+    );
+  }, [repositorio, buscaTermo]);
+
   return (
-    <div>
-      {reposFromApi.map((item) => {
-        return (
-          <div key={item.id}>
-            <p>{item.name}</p>                      
-          </div>
-        );
-      })}
-    </div>
+    <>
+      <br />
+      <input
+        className="input"
+        placeholder="Busque o repositório \(•◡•)/"
+        onChange={pegaInput}
+      />
+      <div>
+        {repositoriosFiltrados.map((repositorio) => {
+          return (
+            <div>
+              <h3 key={repositorio.id}>{repositorio.name}</h3>
+              <a href={repositorio.html_url}>Conferir</a>
+            </div>
+          );
+        })}
+      </div>
+    </>
   );
 }
